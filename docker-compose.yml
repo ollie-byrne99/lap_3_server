@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    image: node:18
+    container_name: progfolio_api
+    environment:
+      - MONGODB_URI=mongodb+srv://hasanshahid:0wVyLXcL48PJgB0c@progfoliocluster.qtoc93r.mongodb.net/
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ./
+        target: /code
+    working_dir: /code
+    command: bash -c "npm install && npm run dev"
+    depends_on:
+      - mongo 
+    networks:
+      - backend_network
+
+  mongo:
+    image: mongo:latest
+    container_name: progfolio_mongo
+    networks:
+      - backend_network
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  backend_network:
+
+volumes:
+  mongo_data:
