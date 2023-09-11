@@ -8,7 +8,7 @@ const seedDB = async () => {
     
         //await client.db('ProgfolioCluster').collection('users').drop()
         await client.db('ProgfolioCluster').collection('users').insertMany([
-            { email: "hasan@gmail.com", username: "hasanova18", password: "xyz", firstName: "hasan", lastName: "shahid", regDate: 0},
+            { email: "hasan@gmail.com", username: "hasanova18", password: "xyz", firstName: "hasan", lastName: "shahid", regDate: new Date()},
             
         
         ])
