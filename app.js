@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
-const logger = require('morgan')
+const logger = require('morgan');
+const userRouter = require('./routes/userRoutes');
+const goalRouter = require('./routes/goalsRoutes');
 
 const app = express()
 
@@ -15,5 +17,8 @@ app.get("/", (req, res) => {
         description: "Time to manage your goals!"
     })
 })
+
+app.use("/user", userRouter)
+app.use("/goals", goalRouter);
 
 module.exports = app
