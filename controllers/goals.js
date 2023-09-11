@@ -1,16 +1,16 @@
-const User = require("../models/User")
+const Goal = require("../models/User")
 
 const index = async (req, res) => {
   try {
-    const user = await User.getAll()
+    const goal = await Goal.getAll()
     res.status(200).json({
       "success": true,
-      "user": user
+      "goal": goal
     })
   } catch (e) {
     res.status(500).json({
       "success": false,
-      "message": "User not available right now",
+      "message": "Goal not available right now",
       "error": e,
     })
   }
@@ -19,7 +19,7 @@ const index = async (req, res) => {
 const show = async (req, res) => {
   try {
     const idx = req.params.id
-    const user = await User.getOne(idx)
+    const goal = await Goal.getOne(idx)
     res.status(200).json({
       "success": true,
       "User": user
@@ -27,7 +27,7 @@ const show = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       "success": false,
-      "message": "User not found",
+      "message": "goal not found",
       "error": e,
     })
   }
@@ -36,7 +36,7 @@ const show = async (req, res) => {
 const create = async (req, res) => {
   try {
     const data = req.body
-    const result = await User.create(data)
+    const result = await Goal.create(data)
     res.status(201).json({
       "success": true,
       "response": result
@@ -54,8 +54,8 @@ const update = async (req, res) => {
   try {
     const idx = req.params.id
     const data = req.body
-    const user = await User.getOne(idx)
-    const result = await user.update(data)
+    const goal = await Goal.getOne(idx)
+    const result = await goal.update(data)
     res.status(200).json({
       "succuess": true,
       "response": result
@@ -63,7 +63,7 @@ const update = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       "success": false,
-      "message": "Unable to update user",
+      "message": "Unable to update goal",
       "error": e,
     })
   }
@@ -73,8 +73,8 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   try {
     const idx = req.params.id
-    const user = await User.getOne(idx)
-    const result = await user.destroy()
+    const goal = await Goal.getOne(idx)
+    const result = await goal.destroy()
     res.status(204).json({
       "success": true,
       "respose": result
