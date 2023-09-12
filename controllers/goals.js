@@ -1,4 +1,4 @@
-const Goal = require("../models/User")
+const Goal = require("../models/Goal")
 
 const index = async (req, res) => {
   try {
