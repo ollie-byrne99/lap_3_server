@@ -25,7 +25,7 @@ class User {
       _id: id,
     })
     const value = await response.toArray()
-    const user = new Pokemon(value[0])
+    const user = new User(value[0])
     user['id'] = id
     return user
   }
