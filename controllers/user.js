@@ -14,7 +14,7 @@ async function register (req, res) {
       data["password"] = await bcrypt.hash(data["password"], salt);
 
       const result = await User.create(data);
-    
+    console.log("This log is after the user is created")
       res.status(201).send(result);
   } catch (err) {
       res.status(400).json({"error": err.message})
@@ -113,7 +113,7 @@ const destroy = async (req, res) => {
   } catch (e) {
     res.status(404).json({
       "success": false,
-      "message": "Unable to delete goal",
+      "message": "Unable to delete user",
       "error": e,
     })
   }
