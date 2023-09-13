@@ -29,7 +29,20 @@ class User {
     user['id'] = id
     return user
   }
-
+  static async getByUsername(username) {
+    const response = await client.connect();
+   
+      await client.connect();
+      const users = client.db('ProgfolioCluster').collection('users'); 
+  
+      const user = await users.findOne({ username });
+  
+      if (!user) {
+        throw new Error("Unable to locate user.");
+      }
+      return new User(user);
+    
+  } 
   static async create({ email, username, password, firstName, lastName, regDate }) {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("users").insertOne({

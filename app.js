@@ -8,8 +8,12 @@ const jwt = require("jsonwebtoken");
 
 const app = express()
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true, 
+  }));
+
 app.use(express.json());
-app.use(cors());
 app.use(logger('dev'))
 
 
@@ -19,6 +23,8 @@ app.get("/", (req, res) => {
         description: "Time to manage your goals!"
     })
 })
+
+
 
 app.use("/users", userRouter)
 app.use("/goals", goalRouter);
