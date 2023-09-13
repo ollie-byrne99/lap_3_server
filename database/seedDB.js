@@ -17,7 +17,7 @@ const seedDB = async () => {
         const user = await usersCollection.findOne({ email: "hasan@gmail.com" });
 
         await client.db('ProgfolioCluster').collection('goals').insertMany([
-            { userID: user._id, goal: "finish History Assignment", category: "School Work", status: 0,  progressValue: 50},
+            { userID: user._id, date, goal: "finish History Assignment", category: "School Work", status: 0,  progressValue: 50},
              ])
            
       
