@@ -18,17 +18,25 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    const idx = req.params.id
+    const idx = req.params.date
     const goal = await Goal.getOne(idx)
+    if (!goal) {
+      // If the goal is not found, respond with a 404 status code.
+      return res.status(404).json({
+        success: false,
+        message: 'Goal not found',
+      });
+    }
     res.status(200).json({
       "success": true,
-      "User": user
+      "goal": goal
+      
     })
   } catch (e) {
     res.status(404).json({
       "success": false,
       "message": "goal not found",
-      "error": e,
+      "error": e.message
     })
   }
 }
@@ -52,7 +60,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const idx = req.params.id
+    const idx = req.params.date
     const data = req.body
     const goal = await Goal.getOne(idx)
     const result = await goal.update(data)
@@ -72,7 +80,7 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const idx = req.params.id
+    const idx = req.params.date
     const goal = await Goal.getOne(idx)
     const result = await goal.destroy()
     res.status(204).json({
