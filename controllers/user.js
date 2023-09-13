@@ -12,7 +12,7 @@ async function register (req, res) {
       console.log(salt)
       // Hash the password
       data["password"] = await bcrypt.hash(data["password"], salt);
-
+console.log(data["password"])
       const result = await User.create(data);
     console.log("This log is after the user is created")
       res.status(201).send(result);
@@ -22,11 +22,16 @@ async function register (req, res) {
 };
 
 async function login (req, res) {
-  const data = req.body;
+  
+  console.log("before the try statement",req.body)
   try {
-      const user = await User.getByEmail(data.email);
+    console.log("inside the try statement", req.body)
+    const data = req.body;
+      const user = await User.getByUsername(data.username);
+      // console.log("after it gets the username", data.username, "and password: ", data.password,"and here is the feen's data: ", data)
+      // console.log(user["password"])
       const authenticated = await bcrypt.compare(data.password, user["password"]);
-
+ 
       if (!authenticated) {
           throw new Error("Incorrect credentials.");
       } else {
