@@ -5,7 +5,7 @@ class Goal {
   constructor(data) {
     this.id = data.id
     this.goal = data.goal
-    this.ddate = data.date
+    this.date = data.date
     this.category = data.category
     this.status = data.status
     this.progressValue = data.progressValue
