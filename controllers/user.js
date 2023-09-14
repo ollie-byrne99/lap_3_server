@@ -93,7 +93,7 @@ const update = async (req, res) => {
     const user = await User.getOne(idx)
     const result = await user.update(data)
     res.status(200).json({
-      "succuess": true,
+      "success": true,
       "response": result
     })
   } catch (e) {
