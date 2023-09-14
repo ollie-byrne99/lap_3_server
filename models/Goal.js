@@ -57,7 +57,7 @@ class Goal {
     const response = await client
       .db("ProgfolioCluster")
       .collection("goals")
-      .updateOne({ _id: this.id }, { $set: { goal, date, category, status, progressValue } })
+      .updateOne({ date: this.date }, { $set: { goal, date, category, status, progressValue } })
     return "goal updated"
   }
 
