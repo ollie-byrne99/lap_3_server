@@ -3,7 +3,7 @@ const client = require("../database/setup")
 
 class Goal {
   constructor(data) {
-    this.id = data.id
+    this._id = data._id
     this.goal = data.goal
     this.date = data.date
     this.category = data.category
@@ -38,6 +38,32 @@ class Goal {
       throw error; // Handle any errors that occur during the database query
     } 
   }
+
+  static async getOneById(_id) {
+    await client.connect();
+    try {
+      const response = await client
+        .db("ProgfolioCluster")
+        .collection("goals")
+        .findOne({
+          _id: new ObjectId(_id), // Query based on the '_id' field using ObjectId
+        });
+  
+      console.log('line 52 Model', response);
+  
+      if (!response) {
+        return null; // Return null if no goal is found
+      }
+  
+      const goal = new Goal(response);
+      return goal;
+    } catch (error) {
+      console.log('line 62 model', error);
+      throw error; // Handle any errors that occur during the database query
+    } 
+  }
+
+
 
   static async create({ goal, date, category, status, progressValue }) {
     await client.connect()

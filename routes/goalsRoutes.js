@@ -8,7 +8,7 @@ goalRouter.get('/:date', goalController.show)
 
 goalRouter.post('/', goalController.create)
 
-goalRouter.patch('/:date', goalController.update)
+goalRouter.patch('/:id', goalController.update)
 
 goalRouter.delete('/:date', goalController.destroy)
 

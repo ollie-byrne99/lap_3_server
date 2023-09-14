@@ -60,9 +60,12 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const idx = req.params.date
+    const idx = req.params.id
+    console.log('line 64 controller', idx)
     const data = req.body
-    const goal = await Goal.getOne(idx)
+    console.log('line 66 controller', data)
+    const goal = await Goal.getOneById(idx) 
+    console.log('line 68', goal)
     const result = await goal.update(data)
     res.status(200).json({
       "succuess": true,
