@@ -83,9 +83,12 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const idx = req.params.date
-    const goal = await Goal.getOne(idx)
+    const idx = req.params.id
+    console.log('line 87 controller', idx)
+    const goal = await Goal.getOneById(idx)
+    console.log('line 89 controller', goal)
     const result = await goal.destroy()
+    console.log('line 91 controller', result)
     res.status(204).json({
       "success": true,
       "respose": result

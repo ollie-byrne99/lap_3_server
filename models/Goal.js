@@ -89,7 +89,8 @@ class Goal {
 
   async destroy() {
     await client.connect()
-    const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: this.id})
+    const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: new ObjectId(this._id) });
+    console.log('line 93 model', response)
     return "goal deleted"
   }
 }

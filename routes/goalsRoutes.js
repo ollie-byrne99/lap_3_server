@@ -10,6 +10,6 @@ goalRouter.post('/', goalController.create)
 
 goalRouter.patch('/:id', goalController.update)
 
-goalRouter.delete('/:date', goalController.destroy)
+goalRouter.delete('/:id', goalController.destroy)
 
 module.exports = goalRouter
