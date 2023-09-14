@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb")
+const { response } = require("../app")
 const client = require("../database/setup")
 
 class Goal {
@@ -79,6 +80,9 @@ class Goal {
 
 
   async update({goal, date, category, status, progressValue }) {
+   
+
+    
     await client.connect()
     const response = await client
       .db("ProgfolioCluster")
@@ -87,6 +91,7 @@ class Goal {
     return "goal updated"
   }
 
+  }
   async destroy() {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: new ObjectId(this._id) });

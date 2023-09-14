@@ -6,6 +6,7 @@ require('dotenv').config();
 async function register (req, res) {
   try {
       const data = req.body;
+
     console.log("Hi james", req.body)
       // Generate a salt with a specific cost
       const salt = await bcrypt.genSalt(parseInt(process.env.BCRYPT_SALT_ROUNDS));
@@ -24,12 +25,13 @@ console.log(data["password"])
 async function login (req, res) {
   
   console.log("before the try statement",req.body)
-  try {
     console.log("inside the try statement", req.body)
     const data = req.body;
+    
       const user = await User.getByUsername(data.username);
-      // console.log("after it gets the username", data.username, "and password: ", data.password,"and here is the feen's data: ", data)
-      // console.log(user["password"])
+       console.log("after it gets the username", data.username, "and password: ", data.password,"and here is the feen's data: ", data)
+       console.log(data["password"])
+       console.log("Kristian",user)
       const authenticated = await bcrypt.compare(data.password, user["password"]);
  
       if (!authenticated) {
@@ -39,17 +41,24 @@ async function login (req, res) {
               { 
                   id: user.id,
                   username: user.username,
-                  isAdmin: user.isAdmin
               },
               process.env.TOKEN_KEY,
-              { expiresIn: "1h", }
+              { expiresIn: "30s", }
           );
+          const refreshToken = jwt.sign(
+            { 
+              id: user.id,
+              username: user.username,
+          },
+          process.env.REFRESH_TOKEN,
+          { expiresIn: "1d", }
+          )
+          res.cookie('jwt', refreshToken, {httpOnly: true, maxAge:24 * 60 * 60 * 10000})
           res.status(200).json({"token": newToken});
       }
       
-  } catch (err) {
-      res.status(403).json({"error": err.message})
-  }
+
+    
 }
 const index = async (req, res) => {
   try {
