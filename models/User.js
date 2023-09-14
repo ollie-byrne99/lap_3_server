@@ -5,6 +5,7 @@ class User {
   constructor(data) {
     this.id = data.id
     this.email = data.email
+    this.password = data.password
     this.username = data.username
     this.firstName = data.firstName
     this.lastName = data.lastName
@@ -31,11 +32,10 @@ class User {
   }
   static async getByUsername(username) {
     const response = await client.connect();
-   
+   console.log("anana", username)
       await client.connect();
       const users = client.db('ProgfolioCluster').collection('users'); 
-  
-      const user = await users.findOne({ username });
+      const user = await users.findOne( {username} );
   
       if (!user) {
         throw new Error("Unable to locate user.");

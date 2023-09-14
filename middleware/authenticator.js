@@ -8,7 +8,16 @@ const verifyToken = (req, res, next) => {
   if (typeof bearerHeader !== "undefined") {
     const bearerToken = bearerHeader.split(" ")[1];
     req.token = bearerToken;
-    next();
+    // jwt.verify(
+    //   bearerToken,
+    //   process.env.TOKEN_KEY,
+    //   (err, decoded) => {
+    //     if (err) return res.sendStatus(403);
+    //     req.user = decoded.username;
+        next()
+    //   }
+    // )
+    //next();
   } else {
     res.sendStatus(403);
   }
