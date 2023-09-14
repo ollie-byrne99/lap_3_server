@@ -4,7 +4,7 @@ const client = require("../database/setup")
 
 class Goal {
   constructor(data) {
-    this.id = data.id
+    this._id = data._id
     this.goal = data.goal
     this.date = data.date
     this.category = data.category
@@ -40,6 +40,32 @@ class Goal {
     } 
   }
 
+  static async getOneById(_id) {
+    await client.connect();
+    try {
+      const response = await client
+        .db("ProgfolioCluster")
+        .collection("goals")
+        .findOne({
+          _id: new ObjectId(_id), // Query based on the '_id' field using ObjectId
+        });
+  
+      console.log('line 52 Model', response);
+  
+      if (!response) {
+        return null; // Return null if no goal is found
+      }
+  
+      const goal = new Goal(response);
+      return goal;
+    } catch (error) {
+      console.log('line 62 model', error);
+      throw error; // Handle any errors that occur during the database query
+    } 
+  }
+
+
+
   static async create({ goal, date, category, status, progressValue }) {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("goals").insertOne({
@@ -62,19 +88,14 @@ class Goal {
       .db("ProgfolioCluster")
       .collection("goals")
       .updateOne({ date: this.date }, { $set: { goal, date, category, status, progressValue } })
- 
-  
-  if(response.modifiedCount === 1){
-    return "Goal updated";
-  } else {
-    // The document was not updated, it might not exist
-    return "Goal not found or not updated";
+    return "goal updated"
   }
 
   }
   async destroy() {
     await client.connect()
-    const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: this.id})
+    const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: new ObjectId(this._id) });
+    console.log('line 93 model', response)
     return "goal deleted"
   }
 }
