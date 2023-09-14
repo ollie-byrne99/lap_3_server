@@ -91,7 +91,6 @@ class Goal {
     return "goal updated"
   }
 
-  }
   async destroy() {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: new ObjectId(this._id) });
