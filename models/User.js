@@ -3,7 +3,9 @@ const client = require("../database/setup")
 
 class User {
   constructor(data) {
-    this.id = data.id
+
+    console.log(data._id.toString());
+    this.id = data._id.toString()
     this.email = data.email
     this.password = data.password
     this.username = data.username
@@ -36,13 +38,14 @@ class User {
       await client.connect();
       const users = client.db('ProgfolioCluster').collection('users'); 
       const user = await users.findOne( {username} );
-  
+      console.log(user);
       if (!user) {
         throw new Error("Unable to locate user.");
       }
       return new User(user);
     
-  } 
+  }
+
   static async create({ email, username, password, firstName, lastName, regDate }) {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("users").insertOne({
