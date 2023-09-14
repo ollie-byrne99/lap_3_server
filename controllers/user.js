@@ -24,12 +24,13 @@ console.log(data["password"])
 async function login (req, res) {
   
   console.log("before the try statement",req.body)
-  try {
     console.log("inside the try statement", req.body)
     const data = req.body;
+    
       const user = await User.getByUsername(data.username);
-      // console.log("after it gets the username", data.username, "and password: ", data.password,"and here is the feen's data: ", data)
-      // console.log(user["password"])
+       console.log("after it gets the username", data.username, "and password: ", data.password,"and here is the feen's data: ", data)
+       console.log(data["password"])
+       console.log("Kristian",user)
       const authenticated = await bcrypt.compare(data.password, user["password"]);
  
       if (!authenticated) {
@@ -47,9 +48,8 @@ async function login (req, res) {
           res.status(200).json({"token": newToken});
       }
       
-  } catch (err) {
-      res.status(403).json({"error": err.message})
-  }
+
+    
 }
 const index = async (req, res) => {
   try {

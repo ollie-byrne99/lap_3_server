@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb")
+const { response } = require("../app")
 const client = require("../database/setup")
 
 class Goal {
@@ -53,14 +54,24 @@ class Goal {
 
 
   async update({goal, date, category, status, progressValue }) {
+   
+
+    
     await client.connect()
     const response = await client
       .db("ProgfolioCluster")
       .collection("goals")
-      .updateOne({ _id: this.id }, { $set: { goal, date, category, status, progressValue } })
-    return "goal updated"
+      .updateOne({ date: this.date }, { $set: { goal, date, category, status, progressValue } })
+ 
+  
+  if(response.modifiedCount === 1){
+    return "Goal updated";
+  } else {
+    // The document was not updated, it might not exist
+    return "Goal not found or not updated";
   }
 
+  }
   async destroy() {
     await client.connect()
     const response = await client.db("ProgfolioCluster").collection("goals").deleteOne({ _id: this.id})
