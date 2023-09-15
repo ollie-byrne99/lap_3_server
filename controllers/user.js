@@ -33,31 +33,37 @@ async function login (req, res) {
        console.log(data["password"])
        console.log("Kristian",user)
       const authenticated = await bcrypt.compare(data.password, user["password"]);
- 
-      if (!authenticated) {
-          throw new Error("Incorrect credentials.");
-      } else {
-          const newToken = jwt.sign(
-              { 
-                  id: user.id,
-                  username: user.username,
-              },
-              process.env.TOKEN_KEY,
-              { expiresIn: "30s", }
-          );
-          const refreshToken = jwt.sign(
-            { 
-              id: user.id,
-              username: user.username,
-          },
-          process.env.REFRESH_TOKEN,
-          { expiresIn: "1d", }
-          )
-          res.cookie('jwt', refreshToken, {httpOnly: true, maxAge:24 * 60 * 60 * 10000})
-          res.status(200).json({"token": newToken});
-      }
-      
+      console.log(user.id);
+      console.log(user["id"]);
 
+      try {
+        if (!authenticated) {
+          throw new Error("Incorrect credentials.");
+        } else {
+            const newToken = jwt.sign(
+                { 
+                    id: user.id,
+                    username: user.username,
+                },
+                process.env.TOKEN_KEY,
+                { expiresIn: "30s", }
+            );
+            const refreshToken = jwt.sign(
+              { 
+                id: user.id,
+                username: user.username,
+            },
+            process.env.REFRESH_TOKEN,
+            { expiresIn: "1d", }
+            )
+            res.cookie('jwt', refreshToken, {httpOnly: true, maxAge:24 * 60 * 60 * 10000})
+            
+            res.status(200).json({"token": newToken, "id": user.id});
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+      }
     
 }
 const index = async (req, res) => {
@@ -97,12 +103,15 @@ const show = async (req, res) => {
 
 const update = async (req, res) => {
   try {
+    console.log(req);
     const idx = req.params.id
     const data = req.body
+    console.log(req);
+    console.log(data);
     const user = await User.getOne(idx)
     const result = await user.update(data)
     res.status(200).json({
-      "succuess": true,
+      "success": true,
       "response": result
     })
   } catch (e) {
